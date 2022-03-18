@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+
+  example-gateway:
+    container_name: example-gateway
+    hostname: example-gateway
+    image: example-gateway:0.0.0
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    environment:
+      EXAMPLE_API_INT: ${EXAMPLE_API_INT}
+      EXAMPLE_API_EXT: ${EXAMPLE_API_EXT}
+      EXAMPLE_APP_INT: ${EXAMPLE_APP_INT}
+      EXAMPLE_APP_EXT: ${EXAMPLE_APP_EXT}
+    volumes:
+      - ./:/usr/share/nginx/html/
+    command: [ nginx-debug, '-g', 'daemon off;' ]
+    ports:
+      - 443:443
+      - 80:80

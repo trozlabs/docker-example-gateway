@@ -1,0 +1,56 @@
+version: "3.9"
+
+networks:
+
+  example-lan:
+    name: example-lan
+    driver: bridge
+
+services:
+
+  example-gateway:
+    container_name: example-gateway
+    hostname: example-gateway
+    image: example-gateway:0.0.0
+    build:
+      context: ./example-gateway
+      dockerfile: ./Dockerfile
+    environment:
+      EXAMPLE_API_INT: example-api
+      EXAMPLE_API_EXT: api.example.tld
+      EXAMPLE_APP_INT: example-app
+      EXAMPLE_APP_EXT: app.example.tld
+    volumes:
+      - ./example-gateway/:/usr/share/nginx/html/
+    ports:
+      - 443:443
+      - 80:80
+    networks:
+      - example-lan
+    command: [ nginx-debug, '-g', 'daemon off;' ]
+
+  example-app:
+    container_name: example-app
+    hostname: example-app
+    image: example-app:0.0.0
+    build:
+      context: ./example-app
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./example-app/:/usr/share/nginx/html/
+    networks:
+      - example-lan
+    command: [ nginx-debug, '-g', 'daemon off;' ]
+
+  example-api:
+    container_name: example-api
+    hostname: example-api
+    image: example-api:0.0.0
+    build:
+      context: ./example-api
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./example-api/:/usr/share/nginx/html/
+    networks:
+      - example-lan
+    command: [ nginx-debug, '-g', 'daemon off;' ]

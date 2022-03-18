@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+
+  example-app:
+    container_name: example-app
+    hostname: example-app
+    image: example-app:0.0.0
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./:/usr/share/nginx/html/
+    command: [ nginx-debug, '-g', 'daemon off;' ]

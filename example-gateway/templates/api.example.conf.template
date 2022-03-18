@@ -1,0 +1,12 @@
+server {
+    listen 80;
+    listen [::]:80;
+
+    server_name ${EXAMPLE_API_EXT};
+
+    location / {
+        resolver 127.0.0.11;
+        set $container http://${EXAMPLE_API_INT};
+        proxy_pass $container;
+    }
+}

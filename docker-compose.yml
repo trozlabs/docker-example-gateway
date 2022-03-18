@@ -1,0 +1,37 @@
+version: "3.9"
+
+networks:
+
+  example-lan:
+    name: example-lan
+    driver: bridge
+
+services:
+
+  example-gateway:
+    extends:
+      file: ./example-gateway/docker-compose.yml
+      service: example-gateway
+    ports:
+      - 443:443
+      - 80:80
+    networks:
+      - example-lan
+
+  example-api:
+    extends:
+      file: ./example-api/docker-compose.yml
+      service: example-api
+    ports:
+      - 8001:80
+    networks:
+      - example-lan
+
+  example-app:
+    extends:
+      file: ./example-app/docker-compose.yml
+      service: example-app
+    ports:
+      - 8002:80
+    networks:
+      - example-lan
