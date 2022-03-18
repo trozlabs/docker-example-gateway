@@ -15,6 +15,9 @@ To Run all containers together.
     docker compose -f docker-compose.yml up
     docker compose -f docker-compose.yml down
 
+
+To Run individual containers from the root directory
+
     docker compose -f example-gateway/docker-compose.yml up
     docker compose -f example-gateway/docker-compose.yml down
 
